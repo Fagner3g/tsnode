@@ -1,12 +1,15 @@
-import express, { Request, Response } from 'express'
+import express, { Response } from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
+
+import routes from './routes'
 
 class App {
   public express: express.Application
 
   public constructor () {
     this.express = express()
+
     this.middlewares()
     this.database()
     this.routes()
@@ -17,16 +20,14 @@ class App {
     this.express.use(cors())
   }
 
-  private database ():void{
+  private database ():void {
     mongoose.connect('mongodb+srv://instagram:instagram@cluster0-ngj5x.mongodb.net/tsnode?retryWrites=true&w=majority', {
       useNewUrlParser: true
     })
   }
 
   private routes (): void {
-    this.express.get('/', (req, res): Response => {
-      return res.send('Hello World')
-    })
+    this.express.use(routes)
   }
 }
 
